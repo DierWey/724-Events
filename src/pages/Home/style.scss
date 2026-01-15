@@ -153,6 +153,12 @@ footer {
     }
   }
 
+  .EventCard__imageContainer img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+  }
+
   .presta {
     width: 35%;
     border-right: 1px solid rgba(91, 50, 255, 0.2);

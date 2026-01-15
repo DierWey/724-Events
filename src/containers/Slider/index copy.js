@@ -1,40 +1,45 @@
 import { useEffect, useState } from "react";
 import { useData } from "../../contexts/DataContext";
 import { getMonth } from "../../helpers/Date";
+
 import "./style.scss";
 
 const Slider = () => {
   const { data } = useData();
   const [index, setIndex] = useState(0);
   const byDateDesc = data?.focus.sort((evtA, evtB) =>
+    new Date(evtA.date) < new Date(evtB.date) ? -1 : 1
+  /*
+  Remplacer ligne 11 par :
     new Date(evtA.date) > new Date(evtB.date) ? -1 : 1
+  pour afficher les images de la + ancienne à la + récente
+  */
   );
-
-  const dataFocus = data?.focus;
   const nextCard = () => {
-    if (dataFocus) {
-      setTimeout(
-        () => setIndex(index < dataFocus.length - 1 ? index + 1 : 0),
-        5000
-      );
-    }
+    setTimeout(
+      () => setIndex(index < byDateDesc.length ? index + 1 : 0),
+      5000
+    );
+  /*
+  Remplacer ligne 20 par :
+      () => setIndex(index < byDateDesc.length-1 ? index + 1 : 0),
+  pour éviter la première image vide au niveau du slider
+  */
   };
-  
   useEffect(() => {
     nextCard();
   });
   return (
     <div className="SlideCardList">
       {byDateDesc?.map((event, idx) => (
-        <div
-          key={event.title}
-        >
+        <>
           <div
+            key={event.title}
             className={`SlideCard SlideCard--${
               index === idx ? "display" : "hide"
             }`}
           >
-            <img src={event.cover} alt={event.title} />
+            <img src={event.cover} alt="forum" />
             <div className="SlideCard__descriptionContainer">
               <div className="SlideCard__description">
                 <h3>{event.title}</h3>
@@ -47,16 +52,15 @@ const Slider = () => {
             <div className="SlideCard__pagination">
               {byDateDesc.map((_, radioIdx) => (
                 <input
-                  key={`${_.title}`}
+                  key={`${event.id}`}
                   type="radio"
                   name="radio-button"
-                  checked={index === radioIdx}
-                  readOnly
+                  checked={idx === radioIdx}
                 />
               ))}
             </div>
           </div>
-        </div>
+        </>
       ))}
     </div>
   );
