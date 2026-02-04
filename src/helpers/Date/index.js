@@ -13,4 +13,11 @@ export const MONTHS = {
   12: "décembre",
 };
 
+// export const getMonth = (date) => MONTHS[date.getMonth()]; // Renvoie le numéro du mois actuel -1
+/* la constante getMonth est une fonction qui prend date en argument et est censée renvoyer le nom 
+français de ce mois grâce à l'objet MONTHS et à la méthode date.getMonth() */
+/* La méthode date.getMonth() retourne le mois d'une date (De 0 à 11 où January=0, February=1 etc.)
+Donc, getMonth()+1 pour avoir les mois de 1 à 12 comme l'Array MONTHS */
+
 export const getMonth = (date) => MONTHS[date.getMonth()+1];
+

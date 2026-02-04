@@ -13,7 +13,7 @@ import Modal from "../../containers/Modal";
 import { useData } from "../../contexts/DataContext";
 
 const Page = () => {
-  /* const { last } = useData(); */
+  // const { last } = useData();
   const { data } = useData();
   const last = data?.events.sort((evtA, evtB) =>
     new Date(evtA.date) > new Date(evtB.date) ? -1 : 1) [0];
@@ -109,6 +109,7 @@ const Page = () => {
           }
         >
           {({ setIsOpened }) => (
+            /* L'ouverture de la modal du message de confirmation d'envoi dépend de onSuccess. */
             <Form
               onSuccess={() => setIsOpened(true)}
               onError={() => null}
@@ -120,7 +121,9 @@ const Page = () => {
     <footer className="row">
       <div className="col presta">
         <h3>Notre derniére prestation</h3>
-        {last ? (
+        {last ? ( // Résolution erreur console "Warning: Failed prop type: The prop `imageSrc` is marked
+        // as required in `EventCard`, but its value is `undefined`." Idem pour `title`, puis `label`
+        // Vérification que last est défini avant de rendre EventCard
           <EventCard
               imageSrc={last.cover}
               title={last.title}

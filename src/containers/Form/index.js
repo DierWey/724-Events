@@ -8,18 +8,18 @@ const mockContactApi = () => new Promise((resolve) => { setTimeout(resolve, 500)
 
 const Form = ({ onSuccess, onError }) => {
   const [sending, setSending] = useState(false);
-  const sendContact = useCallback(
+  const sendContact = useCallback( // Uniquement si les dépendances (onSuccess et onError) changent
     async (evt) => {
       evt.preventDefault();
-      setSending(true);
-      // We try to call mockContactApi
+      setSending(true); // L'envoi du formulaire est en cours
+      // We try to call mockContactApi (Fausse API de contact)
       try {
-        await mockContactApi();
-        setSending(false);
-        onSuccess();
-      } catch (err) {
-        setSending(false);
-        onError(err);
+        await mockContactApi(); // Await permet d'attendre que la fonction se termine
+        setSending(false); // L'envoi du formulaire est terminé
+        onSuccess(); // Indique que l'envoi est bien passé (utile pour le message de confirmation d'envoi).
+      } catch (err) { // si il y a une erreur lors de l'envoi
+        setSending(false); // L'envoi du formulaire est terminé
+        onError(err); // Indique qu'il y a eut une erreur lors de l'envoi
       }
     },
     [onSuccess, onError]

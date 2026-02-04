@@ -10,14 +10,17 @@ import "./style.css";
 const PER_PAGE = 9;
 
 const EventList = () => {
-  const { data, error } = useData();
-  const [type, setType] = useState();
-  const [currentPage, setCurrentPage] = useState(1);
+  const { data, error } = useData(); // data : événements / error : erreurs lors de la récupération des données
+  const [type, setType] = useState(); // type : catégorie d'événements.
+  const [currentPage, setCurrentPage] = useState(1); // pagination
   const filteredEvents = (
-    (!type
-      ? data?.events
-      : data?.events.filter((event) => event.type === type)) || []
-  ).filter((event, index) => {
+    (!type // vérification que type est défini
+      ? data?.events // si type n'est pas défini ou nul : pas de filtre, tous les événements sont affichés
+      // : data?.events) || []  si type est défini, affiche tous les événements. Ce n'est pas ce qu'on veut.
+      : data?.events.filter((event) => event.type === type)) || [] 
+      // si type est défini, les événements sont filtrés selon leur type
+  ).filter((event, index) => { 
+  // Filtre les événements selon leur index dans le tableau filtré data?.event
     if (
       (currentPage - 1) * PER_PAGE <= index &&
       PER_PAGE * currentPage > index

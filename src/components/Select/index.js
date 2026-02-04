@@ -16,9 +16,13 @@ const Select = ({
   const [value, setValue] = useState();
   const [collapsed, setCollapsed] = useState(true);
   const changeValue = (newValue) => {
-    onChange(newValue);
+    // onChange(); Il faut donner la nouvelle valeur (newValue) à la props onChange() 
+    onChange(newValue); 
     setValue(newValue);
-    setCollapsed(newValue);
+    // setCollapsed(newValue);
+    setCollapsed(!collapsed); // Affichage du menu de catégories : 
+    // Si "true" : fermé (cf. useState(true) par défaut). 
+    // Si "false" : ouvert. 
   };
   return (
     <div className={`SelectContainer ${type}`} data-testid="select-testid">
